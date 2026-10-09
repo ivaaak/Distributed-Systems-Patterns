@@ -1,0 +1,18 @@
+{
+  "name": "distributed-systems-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node scripts/cluster.js",
+    "dev:single": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "ioredis": "^5.4.2",
+    "ws": "^8.18.0"
+  }
+}

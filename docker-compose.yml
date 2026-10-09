@@ -1,0 +1,39 @@
+x-api: &api
+  build: ./backend
+  restart: unless-stopped
+  depends_on:
+    redis:
+      condition: service_healthy
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      # 6379 is often inside a Windows/Hyper-V reserved port range, so the host side defaults to 16379.
+      - "${REDIS_HOST_PORT:-16379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  api-1:
+    <<: *api
+    environment: { PORT: 4001, INSTANCE_ID: api-1, PUBLIC_URL: "http://localhost:4001", INTERNAL_URL: "http://api-1:4001", REDIS_URL: "redis://redis:6379" }
+    ports: ["4001:4001"]
+
+  api-2:
+    <<: *api
+    environment: { PORT: 4002, INSTANCE_ID: api-2, PUBLIC_URL: "http://localhost:4002", INTERNAL_URL: "http://api-2:4002", REDIS_URL: "redis://redis:6379" }
+    ports: ["4002:4002"]
+
+  api-3:
+    <<: *api
+    environment: { PORT: 4003, INSTANCE_ID: api-3, PUBLIC_URL: "http://localhost:4003", INTERNAL_URL: "http://api-3:4003", REDIS_URL: "redis://redis:6379" }
+    ports: ["4003:4003"]
+
+  web:
+    build: ./frontend
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on: [api-1, api-2, api-3]
