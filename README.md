@@ -19,6 +19,21 @@ WebSocket clients, fire traffic, and **crash instances** to watch the system rec
                                └────────────────┘
 ```
 
+### Screenshots
+
+![Websocket Fanout](frontend/screenshots/1.png)
+
+![Work Queue](frontend/screenshots/2.png)
+
+![Distributed Lock](frontend/screenshots/3.png)
+
+![Rate Limit](frontend/screenshots/4.png)
+
+![Saga](frontend/screenshots/5.png)
+
+![Sharding](frontend/screenshots/6.png)
+
+
 ## Patterns
 
 Tabs are grouped as **Messaging** (fan-out, work queue, outbox), **Coordination** (leader election, lock, saga),
